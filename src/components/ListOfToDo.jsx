@@ -14,6 +14,8 @@ const ListOfToDo = () => {
      * has two paramenters, the first one a function and the second one is a list that the useEffect is
      * paying attention in order to execute the function
      */
+
+    //here is the get notes function
     useEffect(() => {
         //function that will create listOfNotes, and it is going to await for the answer of that function
         //'cause is a promise
@@ -37,19 +39,35 @@ const ListOfToDo = () => {
         return data
     }
 
-    const onCheckBox = (event, note) => {
+    //here is the update notes function
+    const onCheckBox = async (event, note) => {
         const checked = event.currentTarget.checked;
+
+        //updating the checkbox
+        let noteWithCheckboxInformation = {...note,done: checked} 
+        //we have the note tha we had bur re writing the donde property base on the info that checked is
+        //bringing to us
+
+        //Similar to the POST method in the form
+        let noteUpdatedPromise = await fetch(`http://localhost:8081/api/update/note`,
+        {method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(noteWithCheckboxInformation) //send the body the note with the info check
+            })
+
+            let noteUpdated = await noteUpdatedPromise.json()//making the note into a json structure
 
         dispatch({
             type: 'update-note',
-            payload: {
-                ...note,
-                done: checked
-            }
+            payload: noteUpdated  
         })
     }
 
-    const onDelete = (note) => {
+    const onDelete = async (note) => {
+
+        
         dispatch({
             type: 'remove-note',
             payload: note
