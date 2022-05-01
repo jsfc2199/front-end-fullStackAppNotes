@@ -9,12 +9,7 @@ const initialState = {
         done: false, 
     },
     listOfNotes:[        
-        {
-            id:'0',
-            title:'Title by default',
-            message: 'Message by default',
-            done: true,
-        }
+        //we deleted the nothe by default cause we dont need that anymore
     ]
 }
 

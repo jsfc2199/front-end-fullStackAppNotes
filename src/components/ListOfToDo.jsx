@@ -66,12 +66,19 @@ const ListOfToDo = () => {
     }
 
     const onDelete = async (note) => {
+        let response = await fetch(`http://localhost:8081/api/delete/note/${note.id}`, //we have the id from the note
+        {
+            method: 'DELETE'//we don't send info because we are deleting
+        }) 
 
-        
-        dispatch({
-            type: 'remove-note',
-            payload: note
-        })
+        //if the status is ok we send the action to delete
+        //we do this because we don't want to affect the global state        
+        if(response.status ===200){
+            dispatch({
+                type: 'remove-note',
+                payload: note
+            })
+        }
     }
 
     return (
